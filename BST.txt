@@ -1,0 +1,95 @@
+//Assignment question (d)
+//CloneSubtree function
+bool BST::CloneSubtree(BST t1, type item) {
+	if (t1.empty()) { // If the source tree 't1' is empty, cannot clone.
+		return false;
+	}
+	// Find the node with the specified 'item' in tree 't1'.
+	BTNode* nodeToClone = findNode(t1.root, item);
+	// Clone the subtree rooted at 'nodeToClone' into the current BST.
+	clonning(nodeToClone);
+
+	if (empty()) { //subTree is still empty after cloning, return false
+		return false;
+	}
+	cout << "\n **********Tree********** \n";
+	t1.preOrderPrint();    // Print the contents of the original tree 't1'.
+	cout << "\n **********Subtree********** \n";
+	preOrderPrint(); // Print the contents of the cloned subtree in the current BST.
+	return true;
+}
+//find a node with a specific 'item' in the tree.
+BTNode* BST::findNode(BTNode* cur, type item) {
+	if (cur == NULL) { //item not found
+		return cur;
+	}
+	// Compare the 'item' with the data in the current node.
+	if (cur->item.compare2(item)) {
+		return cur; //Item found
+	}
+	else if (cur->item.compare1(item)) {
+		// If 'item' is less than the current node's data, search in the left subtree.
+		return findNode(cur->left, item);
+	}
+	else { //else (greater than current, search right subtree
+		return findNode(cur->right, item);
+	}
+}
+// Function to clone a subtree rooted at 'cur'.
+void BST::clonning(BTNode* cur) {
+	if (cur == NULL) return;
+	// Insert the current node's item into subTree
+	insert(cur->item);
+	// Recursively clone the left and right subtrees.
+	clonning(cur->left);
+	clonning(cur->right);
+}
+
+void BST::clear() { //clear subtree's function
+	clearRecursive(root); //main operation to clear the tree
+	root = NULL;
+	count = 0;
+}
+
+void BST::clearRecursive(BTNode* cur) {
+	if (cur == NULL) {
+		return;
+	}
+	clearRecursive(cur->left);    // Recursively clear the left subtree
+	clearRecursive(cur->right);   // Recursively clear the right subtree
+	delete cur;    // Delete the current node (cur) to free its memory
+}
+//Assignment question (e)
+//printLevelNodes function
+bool BST::printLevelNodes()
+{
+	if (empty()) return false; //empty tree
+
+	BTNode* cur;
+	Queue q;
+	int level = 1; //root level = 1
+	q.enqueue(root);
+
+	while (!q.empty()) //process nodes while the queue is not empty
+	{
+		int count = q.size(); //no of nodes at current level
+		cout << "Level " << level << " nodes: ";
+		while (count > 0)
+		{
+			q.dequeue(cur);
+			cout << cur->item.id << " ";
+			if (cur->left != NULL)
+			{
+				q.enqueue(cur->left); //enqueue left son
+			}
+			if (cur->right != NULL)
+			{
+				q.enqueue(cur->right); //enqueue right son
+			}
+			count--;
+		}
+		cout << endl;
+		level++;
+	}
+	return true;
+}

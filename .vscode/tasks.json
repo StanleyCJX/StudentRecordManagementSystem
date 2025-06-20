@@ -1,0 +1,32 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build Student Record Manager", // A descriptive name for your task
+            "type": "shell",
+            "command": "cl.exe",
+            "args": [
+                "/Zi", // For debugging
+                "/EHsc",
+                "/nologo",
+                "/Fe:${workspaceFolder}\\app.exe", // Output executable name
+                "${workspaceFolder}\\app.cpp",
+                "${workspaceFolder}\\BST.cpp",
+                "${workspaceFolder}\\BTNode.cpp",
+                "${workspaceFolder}\\Node.cpp",
+                "${workspaceFolder}\\Queue.cpp",
+                "${workspaceFolder}\\Student.cpp"
+                // Add any other .cpp files you might add in the future here
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true // Makes this the default build task
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "new" // Optional: opens a new terminal for the build output
+            },
+            "problemMatcher": "$msCompile" // To parse MSVC compiler errors
+        }
+    ]
+}
